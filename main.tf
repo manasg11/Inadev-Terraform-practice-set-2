@@ -27,8 +27,8 @@ resource "aws_db_instance" "default" {
   engine                 = "mysql"
   engine_version         = "8.0"
   instance_class         = "db.t3.micro"
-  username               = var.db_username
-  password               = random_password.db_password.result
+  username               = jsondecode(aws_secretsmanager_secret_version.db_secret_version.secret_string)["username"]
+  password               = jsondecode(aws_secretsmanager_secret_version.db_secret_version.secret_string)["password"]
   db_name                = var.db_name
   skip_final_snapshot    = true
   vpc_security_group_ids = ["sg-00fc8b71b25ed9a15"]  
